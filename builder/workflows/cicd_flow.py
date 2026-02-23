@@ -35,6 +35,7 @@ class CicdWorkflow:
             schedule_to_close_timeout=timedelta(minutes=10),
         )
 
+        # This is set to True for testing to make sure we can see all stages run. Revert to git_check to avoid unneeded operations.
         if(True): #git_check['change_required']):
 
             commit_hash = await workflow.execute_activity(

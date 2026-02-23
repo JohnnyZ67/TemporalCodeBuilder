@@ -1,3 +1,4 @@
 temporalio
 terraform-local
 gitpython
+pytest

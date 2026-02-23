@@ -1,7 +1,15 @@
 import asyncio
 import uuid
 from typing import Optional
-from temporalio.client import Client
+from datetime import timedelta
+from temporalio.client import (
+    Client,
+    Schedule,
+    ScheduleActionStartWorkflow,
+    ScheduleIntervalSpec,
+    ScheduleSpec,
+    ScheduleState,
+)
 from temporalio.envconfig import ClientConfig
 from builder.workflows.cicd_flow import CicdWorkflow
 
@@ -11,13 +19,23 @@ async def main(client: Optional[Client] = None):
         config.setdefault("target_host", "localhost:7233")
         client = await Client.connect(**config)
     
-    result = await client.start_workflow(
-        CicdWorkflow.run,
-        "cicd-workflow",
-        id=f"total-build-{uuid.uuid4()}",
-        task_queue="cicd-queue",
+    await client.create_schedule(
+        "cicd-auto-deployer-schedule",
+        Schedule(
+            action=ScheduleActionStartWorkflow(
+                CicdWorkflow.run,
+                {"name": "cicd-workflow", "autodeploy": True},
+                id=f"total-build-auto-{uuid.uuid4()}",
+                task_queue="cicd-queue",
+            ),
+            spec=ScheduleSpec(
+                intervals=[ScheduleIntervalSpec(every=timedelta(minutes=5))]
+            ),
+            state=ScheduleState(note="Detecting and deploying any code changes on repository"),
+        ),
     )
-    print("Workflow result:", result)
+
+    print("Schedule added for auto code deployer")
 
 if __name__ == "__main__":
     asyncio.run(main())
