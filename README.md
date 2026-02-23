@@ -129,7 +129,6 @@ When using `approval_starter.py`, the workflow pauses after `terraform_plan` and
 | `temporalio` | Temporal Python SDK |
 | `terraform-local` | `tflocal` CLI for LocalStack |
 | `gitpython` | Git operations in Python |
-| `cdktf` | CDK for Terraform |
 
 **Docker services** (`compose.yaml`):
 
