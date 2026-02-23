@@ -1,0 +1,4 @@
+temporalio
+terraform-local
+gitpython
+cdktf
