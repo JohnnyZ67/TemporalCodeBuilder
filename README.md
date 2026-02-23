@@ -44,13 +44,6 @@ TemporalCodeBuilder/
 │   └── workflows/
 │       └── cicd_flow.py         # Main CicdWorkflow definition
 │
-├── example/
-│   └── api/repo/                # Sample FastAPI app (the deployment target)
-│       ├── src/                 # Application source & tests
-│       ├── provisioning/        # Terraform configs (ECS, ALB, IAM, VPC)
-│       ├── Dockerfile
-│       └── requirements.txt
-│
 ├── approval_starter.py          # Start workflow with manual approval gate
 ├── autodeploy_starter.py        # Start workflow with automatic deployment
 ├── cicd_worker.py               # Worker process — registers and runs activities
@@ -68,7 +61,7 @@ TemporalCodeBuilder/
 - A **LocalStack Pro** auth token set as `LS_AUTH_TOKEN` in your environment
   - LocalStack offers a [2-week free trial](https://localstack.cloud/)
 
-All other dependencies (`temporalio`, `terraform-local`, `gitpython`, `cdktf`) are installed by the setup script.
+All other dependencies (`temporalio`, `terraform-local`, `gitpython`) are installed by the setup script.
 
 ---
 
@@ -124,8 +117,6 @@ When using `approval_starter.py`, the workflow pauses after `terraform_plan` and
 | Task queue | `cicd-queue` |
 | LocalStack endpoint | `http://localhost:4566` |
 | Approval timeout | 10 minutes |
-| Git repo (example app) | `https://github.com/JohnnyZ67/TotallyRealApplication.git` |
-| Docker image (example app) | `test_api:latest` |
 
 ---
 
